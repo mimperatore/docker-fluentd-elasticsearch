@@ -1,0 +1,22 @@
+[Unit]
+Description=Fluentd service
+
+After=haproxy.service
+Requires=haproxy.service
+
+[Service]
+TimeoutSec=600
+KillMode=none
+
+EnvironmentFile=/etc/environment
+
+ExecStartPre=-/usr/bin/docker kill %n
+ExecStartPre=-/usr/bin/docker rm %n
+
+ExecStart=/usr/bin/docker run --rm--name %n --volume /var/lib/docker/containers:/var/lib/docker/containers --volume /var/log/docker:/var/log/docker mimperatore/docker-fluentd-elasticsearch
+
+ExecStop=/usr/bin/docker kill %n
+ExecStop=/usr/bin/docker rm %n
+
+[X-Fleet]
+Global=true
