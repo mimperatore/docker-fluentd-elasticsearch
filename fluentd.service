@@ -13,7 +13,7 @@ EnvironmentFile=/etc/environment
 ExecStartPre=-/usr/bin/docker kill %n
 ExecStartPre=-/usr/bin/docker rm %n
 
-ExecStart=/usr/bin/docker run --rm--name %n --volume /var/lib/docker/containers:/var/lib/docker/containers --volume /var/log/docker:/var/log/docker mimperatore/docker-fluentd-elasticsearch
+ExecStart=/usr/bin/docker run --rm --name %n --add-host es:${COREOS_PRIVATE_IPV4} --volume /var/lib/docker/containers:/var/lib/docker/containers --volume /var/log/docker:/var/log/docker mimperatore/docker-fluentd-elasticsearch
 
 ExecStop=/usr/bin/docker kill %n
 ExecStop=/usr/bin/docker rm %n
